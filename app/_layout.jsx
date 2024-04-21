@@ -2,15 +2,15 @@
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from 'react';
+import "react-native-url-polyfill/auto";
+import GlobalProvider from "../context/GlobalProvider";
 import { NativeWindStyleSheet } from "nativewind";
 SplashScreen.preventAutoHideAsync();
-
-const RootLayout = () => {
-  
-
 NativeWindStyleSheet.setOutput({
   default: "native",
 });
+const RootLayout = () => {
+  
   const [fontsLoaded, error] = useFonts({
     "Poppins-Block": require("../assets/fonts/Poppins-Black.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
@@ -33,12 +33,14 @@ NativeWindStyleSheet.setOutput({
   }, [fontsLoaded, error]);
 
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      {/*<Stack.Screen name="/search/[query]" options={{ headerShown: false }} />*/}
-    </Stack>
+    <GlobalProvider>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        {/*<Stack.Screen name="/search/[query]" options={{ headerShown: false }} />*/}
+      </Stack>
+    </GlobalProvider>
   );
 };
 

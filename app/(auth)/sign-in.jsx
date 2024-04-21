@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { Link } from 'expo-router';
 import { CustomButton, FormField } from "../../components";
-import { signIn } from '../../lib/appwrite';
+import { signIn } from "../../lib/appwrite.functions";
 const SignIn = () => {
   const [form, setForm] = useState({
     email: '',

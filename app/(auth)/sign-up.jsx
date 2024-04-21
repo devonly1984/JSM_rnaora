@@ -2,7 +2,7 @@ import { View, Text, ScrollView, Image, Alert } from 'react-native'
 import {images} from '../../constants'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CustomButton, FormField } from "../../components";
-import {createUser} from '../../lib/appwrite'
+import { createUser } from "../../lib/appwrite.functions";
 import { useState } from 'react';
 import { Link } from 'expo-router';
 const SignUp = () => {
