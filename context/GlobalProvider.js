@@ -2,13 +2,11 @@ import { createContext,useContext,useState,useEffect } from "react";
 import { getCurrentUser } from "../lib/appwrite.functions";
 
 const GlobalContext = createContext();
-export const useGlobalContext = () => {
-    useContext(GlobalContext);
-}
+export const useGlobalContext = () => useContext(GlobalContext);
 const GlobalProvider = ({children})=> {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null)
-    const [isLoading, setIsLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     useEffect(()=>{
         getCurrentUser()
           .then((res) => {
@@ -24,7 +22,7 @@ const GlobalProvider = ({children})=> {
             console.log(error);
           })
           .finally(() => {
-            setIsLoading(false);
+            setLoading(false);
           });
     },[])
     return (
@@ -34,7 +32,7 @@ const GlobalProvider = ({children})=> {
           setIsLoggedIn,
           user,
           setUser,
-          isLoading,
+          loading,
         }}
       >
         {children}

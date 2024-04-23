@@ -3,7 +3,7 @@ import {images} from '../../constants'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useState } from 'react';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { CustomButton, FormField } from "../../components";
 import { signIn } from "../../lib/appwrite.functions";
 const SignIn = () => {
@@ -11,19 +11,20 @@ const SignIn = () => {
     email: '',
     password:''
   })
-  const [isSumitting, setisSumitting] = useState(false)
+  const [isSubmitting, setisSubmitting] = useState(false)
   const submit = async() => {
     if ( !form.email || !form.password){
       Alert.alert("Error","Please fill all fields")
     }
-    setisSumitting(true);
+    setisSubmitting(true);
     try {
-    await signIn(form.email, form.password);
+      await signIn(form.email, form.password);
+      console.log("I am below signin");
       router.replace("/home");
     } catch (error) {
-      Alert.alert('Error',error.message)
-    } finally{
-      setisSumitting(false);
+      Alert.alert("Error", error.message);
+    } finally {
+      setisSubmitting(false);
     }
     
 
@@ -57,7 +58,7 @@ const SignIn = () => {
             title="Sign In"
             handlePress={submit}
             containerStyles="mt-7"
-            isLoading={isSumitting}
+            isLoading={isSubmitting}
           />
           <View className="justify-center pt-5 flex-row gap-2">
             <Text className="text-lg text-gray-100 font-pregular">

@@ -6,9 +6,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {images} from '../constants'
 import { CustomButton } from "../components";
 import { useGlobalContext } from "../context/GlobalProvider";
+
 export default function App() {
-  const {isLoading,isLoggedIn} = useGlobalContext()
-  if (!isLoading && isLoggedIn) {
+  const { loading, isLoggedIn } = useGlobalContext();
+  if (!loading && isLoggedIn) {
     return <Redirect href="/home" />;
   }
   return (
