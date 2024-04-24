@@ -2,9 +2,10 @@ import { View, Text, ScrollView, Image, Alert } from 'react-native'
 import {images} from '../../constants'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CustomButton, FormField } from "../../components";
-import { createUser } from "../../lib/appwrite.functions";
+import { createUser } from "../../lib/appwrite.users";
 import { useState } from 'react';
 import { Link } from 'expo-router';
+import { useGlobalContext } from '../../context/GlobalProvider';
 const SignUp = () => {
   const [form, setForm] = useState({
     username: "",
@@ -12,6 +13,8 @@ const SignUp = () => {
     password: "",
   });
   const [isSumitting, setisSumitting] = useState(false);
+  const { setUser, setIsLoggedIn } = useGlobalContext();
+
   const submit = async() => {
     if (!form.username || !form.email || !form.password){
       Alert.alert("Error","Please fill all fields")
@@ -19,6 +22,9 @@ const SignUp = () => {
     setisSumitting(true);
     try {
       const result = await createUser(form.email, form.password, form.username);
+      
+      setUser(result);
+      setIsLoggedIn(true);
       router.replace("/home");
     } catch (error) {
       Alert.alert('Error',error.message)

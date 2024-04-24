@@ -5,21 +5,27 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { Link, router } from 'expo-router';
 import { CustomButton, FormField } from "../../components";
-import { signIn } from "../../lib/appwrite.functions";
+import { getCurrentUser, signIn } from "../../lib/appwrite.users";
+import { useGlobalContext } from '../../context/GlobalProvider';
 const SignIn = () => {
   const [form, setForm] = useState({
     email: '',
     password:''
   })
   const [isSubmitting, setisSubmitting] = useState(false)
+  const { setUser, setIsLoggedIn } = useGlobalContext();
+
   const submit = async() => {
     if ( !form.email || !form.password){
       Alert.alert("Error","Please fill all fields")
     }
     setisSubmitting(true);
+    
     try {
       await signIn(form.email, form.password);
-      console.log("I am below signin");
+     const result = await getCurrentUser();
+     setUser(result);
+     setIsLoggedIn(true);
       router.replace("/home");
     } catch (error) {
       Alert.alert("Error", error.message);

@@ -1,15 +1,18 @@
-import { View, Text, FlatList, Image, RefreshControl, Alert } from 'react-native'
+import { View, Text, FlatList, Image, RefreshControl} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from "../../constants";
 import { EmptyState, SearchInput, Trending, VideoCard } from "../../components";
 import {  useState } from 'react';
-import { getAllPosts, getLatestPosts } from "../../lib/appwrite.functions";
+import { getAllPosts, getLatestPosts } from "../../lib/appwrite.posts";
 import useAppWrite from '../../lib/useAppWrite';
+import { useGlobalContext } from '../../context/GlobalProvider';
 
 const Home = () => {
   const [refreshing, setRefreshing] = useState(false)
   const { data: posts, refetch, isLoading } = useAppWrite(getAllPosts);
   const { data: latestPosts, isLoading:LatestPostsLoading } = useAppWrite(getLatestPosts);
+  const { user } = useGlobalContext();
+
   const onRefresh = async()=>{
     setRefreshing(true);
    await refetch();
@@ -28,7 +31,9 @@ const Home = () => {
                 <Text className="font-pmedium text-sm text-gray-100">
                   Welcome back
                 </Text>
-                <Text className="text-2xl font-psemibold text-white">JSM</Text>
+                <Text className="text-2xl font-psemibold text-white">
+                  {user?.username}
+                </Text>
               </View>
               <View className="mt-1.5">
                 <Image
